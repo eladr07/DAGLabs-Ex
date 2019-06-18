@@ -151,18 +151,16 @@ namespace DAGLabs_Ex
             // Randomize offset in the interval [-0.1, 0.1)
             double offset = (rand.NextDouble() - 0.5) / 5;
 
-            double delay = PropagationDelay.TotalSeconds * (1 + offset);
-
-            var delaySpan = TimeSpan.FromSeconds(delay);
+            var delay = PropagationDelay * (1 + offset);
 
             Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(delaySpan);
+                Thread.Sleep(delay);
 
                 AddBlock(miner.DAG, newBlock);
 
                 Console.WriteLine("Added block with ID = {0} to miner #{1} after {2} seconds",
-                    newBlock.ID, miner.Index, delay);
+                    newBlock.ID, miner.Index, delay.TotalSeconds);
             });
         }
 
